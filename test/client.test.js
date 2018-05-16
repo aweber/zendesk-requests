@@ -78,6 +78,15 @@ describe('Zendesk request client', () => {
             }
         });
 
+        it('should omit credentials since there are none for requests', () => {
+            requests.create(params);
+            expect(fetch.mock.calls[0][1].credentials).toEqual('omit');
+        });
+
+        it('should use cors mode', () => {
+            requests.create(params);
+            expect(fetch.mock.calls[0][1].mode).toEqual('cors');
+        });
     });
 
 });
