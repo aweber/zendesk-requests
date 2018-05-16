@@ -1,0 +1,27 @@
+{
+  "name": "@aweber/zendesk-requests",
+  "version": "1.0.0",
+  "description": "Front end client for zendesk",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aweber/zendesk-requests.git"
+  },
+  "keywords": [
+    "zendesk",
+    "frontend",
+    "client"
+  ],
+  "author": "AWeber Communications",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "unfetch": "^3.0.0"
+  }
+}
