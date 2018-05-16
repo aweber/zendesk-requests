@@ -35,9 +35,9 @@ describe('Zendesk request client', () => {
         let requests;
 
         const params = {
-            name: 'test name',
+            requester: { name: 'test name' },
             subject: 'test subject',
-            body: 'test body',
+            comment: { body: 'test body' }
         };
 
         beforeEach(() => {
@@ -53,8 +53,8 @@ describe('Zendesk request client', () => {
         it('should pass the name, subject, and body in the request body', () => {
             requests.create(params);
             const requestBody = JSON.parse(fetch.mock.calls[0][1].body).request;
-            expect(requestBody.requester.name).toEqual(params.name);
-            expect(requestBody.comment.body).toEqual(params.body);
+            expect(requestBody.requester.name).toEqual(params.requester.name);
+            expect(requestBody.comment.body).toEqual(params.comment.body);
             expect(requestBody.subject).toEqual(params.subject);
         });
 
@@ -75,6 +75,7 @@ describe('Zendesk request client', () => {
                 fail('Error not thrown');
             } catch (e) {
                 expect(e).toEqual(expect.any(Error));
+                expect(e.message).toEqual('text');
             }
         });
 
