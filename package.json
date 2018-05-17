@@ -2,7 +2,7 @@
   "name": "@aweber/zendesk-requests",
   "version": "1.0.0",
   "description": "Front end client for zendesk",
-  "main": "dist/index.js",
+  "main": "dist/client.js",
   "scripts": {
     "test": "jest --colors",
     "prepublish": "babel lib -d dist"
