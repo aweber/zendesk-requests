@@ -1,6 +1,6 @@
 {
   "name": "@aweber/zendesk-requests",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Front end client for zendesk",
   "main": "dist/index.js",
   "scripts": {
