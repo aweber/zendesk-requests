@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import 'regenerator-runtime/runtime';
 
 import Client from '../lib/client';
 
