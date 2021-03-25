@@ -1,7 +1,7 @@
 import fetch from 'unfetch';
 import 'regenerator-runtime/runtime';
 
-import Client from '../lib/client';
+import Client, { RequestsError } from '../lib/client';
 
 jest.mock('unfetch', () => jest.fn());
 
@@ -75,8 +75,9 @@ describe('Zendesk request client', () => {
                 await requests.create(params);
                 fail('Error not thrown');
             } catch (e) {
-                expect(e).toEqual(expect.any(Error));
+                expect(e).toBeInstanceOf(RequestsError);
                 expect(e.message).toEqual('text');
+                expect(e.json).toBeNull();
             }
         });
 
@@ -88,6 +89,49 @@ describe('Zendesk request client', () => {
         it('should use cors mode', () => {
             requests.create(params);
             expect(fetch.mock.calls[0][1].mode).toEqual('cors');
+        });
+
+        it('should include the response code on error', async () => {
+            createZendeskResponse(requestResponse, 422);
+            try {
+                await requests.create(params);
+                fail('Error not thrown');
+            } catch(e) {
+                expect(e).toBeInstanceOf(RequestsError);
+                expect(e.status).toEqual(422);
+            }
+        });
+
+        it('should include the json body on error', async () => {
+            let response = {
+                "details": {
+                    "value": [
+                        {
+                            "type": "blank",
+                            "description": "can't be blank"
+                        },
+                        {
+                            "type": "invalid",
+                            "description": " is not properly formatted"
+                        }
+                    ]
+                },
+                "description": "RecordValidation errors",
+                "error": "RecordInvalid"
+            };
+            fetch.mockReturnValue(Promise.resolve({
+                status: 422,
+                json: () => Promise.resolve(response),
+                text: () => Promise.resolve(JSON.stringify(response)),
+            }));
+
+            try {
+                await requests.create(params);
+                fail('Error not thrown');
+            } catch(e) {
+                expect(e).toBeInstanceOf(RequestsError);
+                expect(e.json).toEqual(response);
+            }
         });
     });
 
