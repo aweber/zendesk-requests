@@ -1,9 +1,8 @@
-import fetch from 'unfetch';
 import 'regenerator-runtime/runtime';
 
-import Client, { RequestsError } from '../lib/client';
+require('jest-fetch-mock').enableMocks()
 
-jest.mock('unfetch', () => jest.fn());
+import Client, { RequestsError } from '../lib/client';
 
 const createZendeskResponse = (request, status) => {
     fetch.mockReturnValue(Promise.resolve({
